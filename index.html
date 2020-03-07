@@ -1,16 +1,28 @@
 <html>
     <body>
-        <h1>Socket.io<h1>
+        <h1>Socket.io</h1>
         <script src="/socket.io/socket.io.js"></script>
         <script src="https://code.jquery.com/jquery-3.4.1.js"
         integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
         crossorigin="anonymous"></script>
         <div id="msgs"></div>
+        <input type="text" id="texto">
         <script>
             const socket = io()
-            socket.on('connect',function(client){
-                
+            socket.on('connect',function(){
+               document.getElementById("msgs").append("connected with id: ", socket.id);
+               socket.emit('msg', 'Iam connected '+ socket.id);
             })
+            socket.on('msg', function(msg){
+                document.getElementById("msgs").append(msg+"<br>");
+            })
+            myInput = document.getElementById("texto")
+            myInput.addEventListener("keydown",function(keyCode){
+                console.log(keyCode.key);
+                socket.emit('msg', keyCode.key);
+                myInput.value = '';                   
+            })
+            
         </script>
     </body>
 

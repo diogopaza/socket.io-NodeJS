@@ -9,6 +9,11 @@ app.get('/', (req,res)=>{
 
 io.on('connection', (socket)=>{
     console.log('new connection', socket.id)
+    socket.on('msg', (msg)=>{
+        console.log("servidor ",msg )
+        socket.broadcast.emit('msg', msg)
+    })
+    
 })
 
 http.listen(2500, function(){
